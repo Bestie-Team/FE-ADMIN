@@ -55,7 +55,7 @@ export default function Panes() {
       title: "User",
       dataIndex: "username",
       key: "username",
-      render: (text: any, record: any) => (
+      render: (_: any, record: any) => (
         <div className="flex items-center">
           {/* <Avatar src={record.avatar} /> */}
           <div className="ml-2">
@@ -135,7 +135,7 @@ export default function Panes() {
       title: "Post",
       dataIndex: "id",
       key: "id",
-      render: (text: any, record: any) => (
+      render: (_: any, record: any) => (
         <div className="flex items-center">
           <img
             src={record.image || "/placeholder.svg"}

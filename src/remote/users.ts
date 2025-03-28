@@ -31,8 +31,8 @@ export async function getUsers({
     },
   });
 
-  if (response.status === 400 || response.status === 500) {
-    window.location.href = "/";
+  if (!response.ok) {
+    throw new Error("로그인 실패");
   }
 
   const data = await response.json();

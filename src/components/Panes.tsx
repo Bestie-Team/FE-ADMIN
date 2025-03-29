@@ -29,20 +29,15 @@ const { TabPane } = Tabs;
 
 export default function Panes() {
   const navigate = useNavigate();
-  // const [pageParams, setPageParams] = useState({
-  //   page: 0,
-  //   limit: 500,
-  //   sortBy: "createdAt" as const,
-  //   sortOrder: "desc" as const,
-  // });
-
-  const [activeTab, setActiveTab] = useState("1");
-  const { data: users, isError } = useUsers({
-    page: 0,
-    limit: 500,
+  const [pageParams, setPageParams] = useState({
+    page: 1,
+    limit: 15,
     sortBy: "createdAt" as const,
     sortOrder: "desc" as const,
   });
+
+  const [activeTab, setActiveTab] = useState("1");
+  const { data: users, isError } = useUsers(pageParams);
 
   if (isError) {
     navigate("/");
@@ -257,7 +252,18 @@ export default function Panes() {
         <Table
           dataSource={users}
           columns={userColumns}
-          pagination={{ pageSize: 500 }}
+          pagination={{
+            pageSize: pageParams.limit,
+            current: pageParams.page,
+            total: 50,
+            onChange: (page) => {
+              setPageParams((prev) => ({
+                ...prev,
+                page,
+                limit: 15,
+              }));
+            },
+          }}
         />
       </TabPane>
       <TabPane tab="Dashboard" key="2">
@@ -374,15 +380,3 @@ export default function Panes() {
     </Tabs>
   );
 }
-// {
-//   pageSize: pageParams.limit,
-//   current: pageParams.page + 1,
-//   total: users?.length || 0,
-//   onChange: (page) => {
-//     setPageParams((prev) => ({
-//       ...prev,
-//       page: page - 1,
-//       limit: 500,
-//     }));
-//   },
-// }

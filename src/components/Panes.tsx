@@ -25,6 +25,7 @@ import { ArrowUp, ArrowDown } from "lucide-react";
 import { useState } from "react";
 import useUsers from "../hooks/users/useUsers";
 import { useNavigate } from "react-router-dom";
+import useTotalUser from "../hooks/users/useTotalUser";
 const { TabPane } = Tabs;
 
 export default function Panes() {
@@ -43,6 +44,8 @@ export default function Panes() {
 
   const [activeTab, setActiveTab] = useState("1");
   const { data: users, isError } = useUsers(pageParams);
+
+  const { data: totalUser } = useTotalUser();
 
   if (isError) {
     navigate("/");
@@ -285,7 +288,7 @@ export default function Panes() {
           pagination={{
             pageSize: pageParams.limit,
             current: pageParams.page,
-            total: 50,
+            total: totalUser?.count || 100,
             onChange: (page) => {
               setPageParams((prev) => ({
                 ...prev,

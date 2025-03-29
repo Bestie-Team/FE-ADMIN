@@ -39,3 +39,25 @@ export async function getUsers({
   const data = await response.json();
   return data;
 }
+
+/** 회원 조회 */
+export async function getUserCount(): Promise<{ count: number }> {
+  const baseUrl = API_CONFIG.getBaseUrl();
+  const targetUrl = `${baseUrl}/users/count`;
+
+  const response = await fetchWithAuth(targetUrl, {
+    method: "GET",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  if (!response.ok) {
+    console.log(response);
+    throw new Error("유저 수 조희 실패");
+  }
+
+  const data = await response.json();
+  return data;
+}

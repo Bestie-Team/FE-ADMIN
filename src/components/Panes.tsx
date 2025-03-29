@@ -108,6 +108,25 @@ export default function Panes() {
       ),
     },
     {
+      title: "탈퇴",
+      dataIndex: "deletedAt",
+      key: "deletedAt",
+      render: (deletedAt: any) => (
+        <span>
+          {deletedAt !== null
+            ? new Date(deletedAt).toLocaleString("ko-KR", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+                hour: "2-digit",
+                minute: "2-digit",
+                second: "2-digit",
+              })
+            : "-"}
+        </span>
+      ),
+    },
+    {
       title: "설정",
       key: "actions",
       render: () => (

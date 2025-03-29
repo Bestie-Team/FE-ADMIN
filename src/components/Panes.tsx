@@ -24,22 +24,18 @@ import { posts } from "../constants/mock";
 import { ArrowUp, ArrowDown } from "lucide-react";
 import { useState } from "react";
 import useUsers from "../hooks/users/useUsers";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 const { TabPane } = Tabs;
 
 export default function Panes() {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("1");
-  const { data: users, isError } = useUsers({
+  const { data: users } = useUsers({
     page: 1,
     limit: 15,
     sortBy: "createdAt",
     sortOrder: "asc",
   });
-
-  if (isError) {
-    navigate("/");
-  }
 
   const userColumns = [
     {

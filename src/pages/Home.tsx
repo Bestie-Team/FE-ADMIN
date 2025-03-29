@@ -1,5 +1,3 @@
-"use client";
-
 import { useState } from "react";
 import { Layout, Menu, Avatar, Button, Dropdown } from "antd";
 import {

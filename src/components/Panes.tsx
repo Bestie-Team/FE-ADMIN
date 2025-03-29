@@ -31,8 +31,8 @@ export default function Panes() {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("1");
   const { data: users, isError } = useUsers({
-    page: 1,
-    limit: 15,
+    page: 0,
+    limit: 500,
     sortBy: "createdAt",
     sortOrder: "asc",
   });

@@ -33,7 +33,7 @@ export async function getUsers({
 
   if (!response.ok) {
     console.log(response);
-    throw new Error("로그인 실패");
+    throw new Error("유저 조희 실패");
   }
 
   const data = await response.json();

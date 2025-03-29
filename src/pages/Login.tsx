@@ -20,6 +20,12 @@ export default function LoginPage() {
     }
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter") {
+      loginHandler();
+    }
+  };
+
   return (
     <div className="flex items-center justify-center min-h-dvh w-full bg-gray-50 p-4">
       <Card
@@ -40,6 +46,7 @@ export default function LoginPage() {
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            onKeyDown={handleKeyDown}
           />
         </div>
         <Button

@@ -29,7 +29,12 @@ const { TabPane } = Tabs;
 
 export default function Panes() {
   const navigate = useNavigate();
-  const [pageParams, setPageParams] = useState({
+  const [pageParams, setPageParams] = useState<{
+    page: number;
+    limit: number;
+    sortBy: "name" | "createdAt" | "accountId";
+    sortOrder: "asc" | "desc";
+  }>({
     page: 1,
     limit: 15,
     sortBy: "createdAt" as const,
@@ -45,29 +50,27 @@ export default function Panes() {
 
   const userColumns = [
     {
-      title: "프로필 이미지",
-      dataIndex: "profileImageUrl",
-      key: "profileImageUrl",
-      render: (profileImageUrl: any) => (
-        <img
-          src={profileImageUrl}
-          alt="profile"
-          width={48}
-          height={48}
-          className="rounded-full w-12 h-12 object-cover cursor-pointer"
-          onClick={() => window.open(profileImageUrl, "_blank")}
-        />
+      title: "이름",
+      dataIndex: "name",
+      key: "name",
+      sorter: true,
+      render: (name: any) => (
+        <div className="flex items-center">
+          <div className="ml-2">
+            <div className="font-medium">{name}</div>
+          </div>
+        </div>
       ),
     },
     {
       title: "User",
-      dataIndex: "username",
-      key: "username",
-      render: (_: any, record: any) => (
+      dataIndex: "accountId",
+      key: "accountId",
+      sorter: true,
+      render: (accountId: any) => (
         <div className="flex items-center">
           <div className="ml-2">
-            <div className="font-medium">{record.name}</div>
-            <div className="text-sm text-gray-500">@{record.accountId}</div>
+            <div className="text-md text-gray-500">@{accountId}</div>
           </div>
         </div>
       ),
@@ -95,6 +98,7 @@ export default function Panes() {
       title: "가입일",
       dataIndex: "createdAt",
       key: "createdAt",
+      sorter: true,
       render: (createdAt: any) => (
         <span>
           {new Date(createdAt).toLocaleString("ko-KR", {
@@ -125,6 +129,21 @@ export default function Panes() {
               })
             : "-"}
         </span>
+      ),
+    },
+    {
+      title: "프로필 이미지",
+      dataIndex: "profileImageUrl",
+      key: "profileImageUrl",
+      render: (profileImageUrl: any) => (
+        <img
+          src={profileImageUrl}
+          alt="profile"
+          width={48}
+          height={48}
+          className="rounded-full w-12 h-12 object-cover cursor-pointer mx-auto"
+          onClick={() => window.open(profileImageUrl, "_blank")}
+        />
       ),
     },
     {
@@ -235,6 +254,16 @@ export default function Panes() {
     },
   ];
 
+  const handleTableChange = (pagination: any, _: any, sorter: any) => {
+    console.log(sorter.field);
+    setPageParams((prev) => ({
+      ...prev,
+      page: pagination.current || prev.page,
+      sortBy: sorter.field || prev.sortBy,
+      sortOrder: sorter.order === "ascend" ? "asc" : "desc",
+    }));
+  };
+
   return (
     <Tabs activeKey={activeTab} onChange={setActiveTab}>
       <TabPane tab="Users" key="1">
@@ -252,6 +281,7 @@ export default function Panes() {
         <Table
           dataSource={users}
           columns={userColumns}
+          onChange={handleTableChange}
           pagination={{
             pageSize: pageParams.limit,
             current: pageParams.page,

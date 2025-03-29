@@ -13,7 +13,7 @@ import Panes from "../components/Panes";
 
 const { Header, Sider, Content } = Layout;
 
-export default function LightyAdmin() {
+export default function MainPage() {
   const [collapsed, setCollapsed] = useState(false);
 
   return (

@@ -29,12 +29,19 @@ const { TabPane } = Tabs;
 
 export default function Panes() {
   const navigate = useNavigate();
+  // const [pageParams, setPageParams] = useState({
+  //   page: 0,
+  //   limit: 500,
+  //   sortBy: "createdAt" as const,
+  //   sortOrder: "desc" as const,
+  // });
+
   const [activeTab, setActiveTab] = useState("1");
   const { data: users, isError } = useUsers({
     page: 0,
     limit: 500,
-    sortBy: "createdAt",
-    sortOrder: "asc",
+    sortBy: "createdAt" as const,
+    sortOrder: "desc" as const,
   });
 
   if (isError) {
@@ -63,7 +70,6 @@ export default function Panes() {
       key: "username",
       render: (_: any, record: any) => (
         <div className="flex items-center">
-          {/* <Avatar src={record.avatar} /> */}
           <div className="ml-2">
             <div className="font-medium">{record.name}</div>
             <div className="text-sm text-gray-500">@{record.accountId}</div>
@@ -251,7 +257,7 @@ export default function Panes() {
         <Table
           dataSource={users}
           columns={userColumns}
-          pagination={{ pageSize: 15 }}
+          pagination={{ pageSize: 500 }}
         />
       </TabPane>
       <TabPane tab="Dashboard" key="2">
@@ -368,3 +374,15 @@ export default function Panes() {
     </Tabs>
   );
 }
+// {
+//   pageSize: pageParams.limit,
+//   current: pageParams.page + 1,
+//   total: users?.length || 0,
+//   onChange: (page) => {
+//     setPageParams((prev) => ({
+//       ...prev,
+//       page: page - 1,
+//       limit: 500,
+//     }));
+//   },
+// }

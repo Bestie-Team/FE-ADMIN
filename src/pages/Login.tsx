@@ -10,7 +10,6 @@ export default function LoginPage() {
 
   const loginHandler = async () => {
     try {
-      console.log(id, password);
       const loggedIn = await login({ username: id, password: password });
       if (loggedIn) {
         navigate("/main");
